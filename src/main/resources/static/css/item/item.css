@@ -1,0 +1,37 @@
+.button-item {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    border: 2px solid #555555;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.button-item-event:hover {
+    background-color: #898989;
+}
+.page-background{
+    background: #c3c3c2;
+}
+
+.btn-item{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #555555;
+}
+
+.input-item{
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #555555 !important;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

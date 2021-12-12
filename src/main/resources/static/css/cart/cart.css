@@ -1,0 +1,62 @@
+@media screen and (max-width: 9999px) {
+    .panel-cart {
+        overflow: auto;
+        height: 500px;
+    }
+}
+@media screen and (max-width: 1024px) {
+    .panel-cart {
+        overflow: auto;
+        height: 420px;
+    }
+}
+.page-background{
+    background: #c3c3c2;
+}
+.button-item {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    border: 2px solid #555555;
+    padding: 15px 32px;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    height: 40px;
+}
+.button-item-cancel {
+    background-color: rgb(214 214 211);
+    border: none;
+    color: #000000;
+    border: 2px solid #555555;
+    padding: 15px 32px;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    height: 40px;
+}
+.button-item-event:hover {
+    background-color: #898989;
+}
+.btn-item{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #555555;
+}
+.input-item{
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #555555 !important;
+}

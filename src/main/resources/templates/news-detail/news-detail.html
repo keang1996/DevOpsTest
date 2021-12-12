@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="og:description" data-th-attr="content=${topic}">
+<meta name="og:title" data-th-attr="content=${topic}">
+<meta property="og:type" content="article"/>
+<meta name="og:image" content="">
+<head th:include="shared/head :: head (pageTitle='GTA V : what city topup')">
+</head>
+<body>
+<div th:replace="shared/header :: header"></div>
+<!-- Page Preloder -->
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+
+<section class="card-category-root">
+  <div class="card-category-inner">
+    <div class="card-category-entryPage">
+      <div class="card-category-titleContainer">
+        <div class="card-category-titleContainerBackground"
+             th:style="'background:url('+'data:image/jpeg;base64,'+ ${coverImage}+'); background-size:cover;'"></div>
+      </div>
+      <a class="card-category-BackToCategory" th:href="@{'/news/' + ${cateId} + '?page=1'}">
+        <img width="2%"
+             src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/arrow_left.png"
+             class="card-category-back-arrow">
+        Back To Category
+      </a>
+      <div class="card-category-title" th:text="${topic}"></div>
+      <div class="card-category-date" th:text="${date}"></div>
+      <div class="card-category-body"
+           style="white-space: pre-line;max-width: 75ch;padding: 3em 1em;margin: auto;line-height: 1.75;font-size: 1.25em;">
+        <span th:utext="${content}"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--====== Javascripts & Jquery ======-->
+
+<script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/owl.carousel.min.js"></script>
+<script src="../js/jquery.marquee.min.js"></script>
+<script src="../js/main.js"></script>
+<div th:replace="shared/footer :: footer"></div>
+</body>
+</html>

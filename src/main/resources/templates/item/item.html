@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="shared/head :: head (pageTitle='GTA V : what city topup')">
+</head>
+<body>
+<div th:replace="shared/header :: header"></div>
+<!-- Page Preloder -->
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+<!-- Latest news section -->
+<!--<div th:replace="shared/news-header :: news-header"></div>-->
+<!-- Latest news section end -->
+<!-- Page section -->
+<section class="page-section review-page spad page-background" style="height: 100%">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <h2 style="text-align: center;">[[${titleItem}]]</h2>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <h2>&nbsp;</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-6" th:each="product, prdStat: ${products}">
+        <div class="card" style="background-color: transparent;">
+          <div class="card-header">
+            <img th:src="@{'data:image/jpeg;base64,' + ${product.getProductImg()}}"
+                 class="card-img-top">
+            <input type="text"
+                   th:id="'image' + ${product.getProductId()}"
+                   th:value="@{'data:image/jpeg;base64,' + ${product.getProductImg()}}" readonly
+                   hidden/>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title" th:text="${product.getProductName()}"></h5>
+            <input type="text"
+                   th:id="'productName' + ${product.getProductId()}"
+                   th:value="${product.getProductName()}" readonly hidden/>
+            <input type="text"
+                   th:id="'price' + ${product.getProductId()}"
+                   th:value="${product.getProductPrice()}"
+                   style="
+                   background-color: transparent;
+                   color: white;
+                   border: transparent;
+                   text-align: center;" readonly hidden/>
+            <p class="card-text" style="font-size: 15px; color: black"
+               th:text="'ราคา '+${#numbers.formatDecimal(product.getProductPrice(),0, 'COMMA', 2, 'POINT')}+' บาท'"></p>
+            <div class="input-group" style="text-align: left;padding-top: 0px;">
+              <p
+                style="margin-bottom: 0;align-self: center;margin-right: 1rem;color: black;font-size: 15px;">
+                จำนวน </p>
+              <div class="input-group-append">
+                <button th:onclick="'productMinus(\'product' + ${product.getProductId()} + '\')' "
+                        type="button" name="'product' + ${product.getProductId()}"
+                        class="btn btn-item button-item-event">-
+                </button>
+              </div>
+              <input th:id="'product' + ${product.getProductId()}"
+                     th:name="'product' + ${product.getProductId()}"
+                     onkeypress=" return isNumber(event)"
+                     th:onblur="'checkBlankAndZero(\'product' + ${product.getProductId()} + '\')' "
+                     type="text" name="name" value="1" maxlength="6"
+                     min="0" class="input-item" style="width: 30%;text-align: center;
+                               background-color: transparent;
+                               color: black !important;
+                               border: 0px !important;">
+              <div class="input-group-append">
+                <button th:onclick="'productPlus(\'product' + ${product.getProductId()} + '\')'"
+                        type="button" name="'product' + ${product.getProductId()}"
+                        class="btn btn-item button-item-event">+
+                </button>
+              </div>
+            </div>
+
+            <button class="button-item button-item-event"
+                    style="width: 100%"
+                    th:onclick="'addProduct(\'product' + ${product.getProductId()} + '\',\'productName' + ${product.getProductId()} + '\',\'price' + ${product.getProductId()} + '\',\'image' + ${product.getProductId()} +'\')'"
+                    type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                   class="bi bi-cart" viewBox="0 0 20 20">
+                <path
+                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              </svg>
+              &nbsp;
+              หยิบใส่ตะกร้า
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="container" th:style="${size} > 0 ? 'display: block' : 'display: none'">
+    <div class="row" style="justify-content: center">
+      <nav aria-label="Search product pages">
+        <ul class="pagination pagination-lg">
+          <li class="page-item" th:each="i : ${#numbers.sequence( 1, total)}">
+            <a class="page-link" th:href="@{'/'+${titleItemEn}+'?page='+${i}}" th:text="${i}"
+               style="background-color: #3a3a3a;color: white;"></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+<!-- Page section end -->
+
+<!-- Footer top section end -->
+<!--====== Javascripts & Jquery ======-->
+<link rel="stylesheet" href="../css/item/item.css"/>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.marquee.min.js"></script>
+<script src="js/main.js"></script>
+<script type="text/javascript" th:src="@{/js/item/item.js}"></script>
+<script type="text/javascript" th:src="@{/js/cart-side-nav/cart-side-nav.js}"></script>
+<div th:replace="shared/footer :: footer"></div>
+</body>
+</html>

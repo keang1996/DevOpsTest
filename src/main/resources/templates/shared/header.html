@@ -1,0 +1,154 @@
+<header xmlns:th="http://www.thymeleaf.org" th:fragment="header"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <div class="fixed-header">
+    <div th:replace="shared/cart-side-nav :: cart-side-nav"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container menu-layout">
+        <!-- logo -->
+        <a class="navbar-brand" th:href="@{/}">
+          <img src="/img/what_city_logo.png" style="" width="100px" alt="">
+        </a>
+        <!-- site menu -->
+        <nav class="main-menu">
+          <ul>
+            <li class="profile-display" sec:authorize="isAuthenticated()">
+              <img th:src="@{${user.avartar}}" style="
+              width: 30px;
+              height: 30px;
+              margin-left: 26px">
+              <a style="padding-left: 5px; width: 100%;" th:href="@{/}">[[${user.steamName}]]</a>
+              <a style="cursor:pointer" onclick="getCartSession();openNavShadow();openNav()">
+                <svg xmlns="http://www.w3.org/2000/svg" color="white" width="25" height="25"
+                     fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                  <path
+                      d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+              </a>
+              <a href="#" th:href="@{/logout}">logout</a>
+            </li>
+            <li class="profile-display" sec:authorize="isAnonymous()"
+                style="justify-content: flex-end;">
+              <form name="form" th:action="@{/login/openid}" method="post">
+                <div id="openid_input_area">
+                  <input id="openid_identifier" name="openid_identifier" type="hidden"
+                         value="http://steamcommunity.com/openid"/>
+
+                  <button id="openid_submit" type="submit" class="btn btn-link">
+                    <div style="display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                align-content: center;">
+                      <div>
+                        <img style="width: 40px"
+                             src="https://img.icons8.com/ios/50/ffffff/steam.png"/>
+                      </div>
+                      <div style="color: white;padding-left: 5px;font-size: 12px;">
+                        STEAM LOGIN
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </form>
+            </li>
+            <li><a th:href="@{/}">หน้าหลัก</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ไอเทมภายในเกมส์
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"
+                   style="left: 1.5em;background-color: #343a40;">
+                <div class="item-click">
+                  <a th:href="@{'/gachapon' + '?page=1'}">กาชาปอง</a>
+                </div>
+                <div class="item-click">
+                  <a th:href="@{'/vip' + '?page=1'}">วีไอพี</a>
+                </div>
+                <div class="item-click">
+                  <a th:href="@{'/whiteList' + '?page=1'}">ไวท์ลิสต์</a>
+                </div>
+              </div>
+            </li>
+            <li><a th:href="@{/news}">ข่าวสาร</a></li>
+            <li><a th:href="@{/contact}">ติดต่อ</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/order}">รายการสั่งชื้อ</a></li>
+          </ul>
+        </nav>
+
+
+        <!--        <div class="profile-cart"-->
+        <!--             sec:authorize="isAuthenticated()">-->
+        <!--          <div id="button-cart-side-nav">-->
+        <!--            <a style="cursor:pointer" onclick="getCartSession();openNavShadow();openNav()">-->
+        <!--              <svg xmlns="http://www.w3.org/2000/svg" color="white" width="25" height="25"-->
+        <!--                   fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">-->
+        <!--                <path-->
+        <!--                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>-->
+        <!--              </svg>-->
+        <!--            </a>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div sec:authorize="isAuthenticated()" class="profile-header">
+          <ul style="list-style-type: none; text-align: right;">
+            <li class="nav-item dropdown" style="display: inline-flex; align-items: center;">
+              <div id="button-cart-side-nav">
+                <a style="cursor:pointer" onclick="getCartSession();openNavShadow();openNav()">
+                  <svg xmlns="http://www.w3.org/2000/svg" color="white" width="25" height="25"
+                       fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                  </svg>
+                </a>
+              </div>
+              <a class="nav-link dropdown-toggle"
+                 id="navbarDropdownMenuLink" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false" th:inline="text"
+                 style="color: white; cursor: pointer;">
+                [[${user.steamName}]]
+              </a>
+              <img th:src="@{${user.avartar}}" style="
+              width: 30px;
+              height: 30px;
+              align-self: center;">
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#" th:href="@{/logout}">logout</a>
+              </div>
+              <div id="steam_id" th:value="@{${user.steamId}}" hidden></div>
+            </li>
+          </ul>
+        </div>
+
+        <!--      steam button-->
+        <div sec:authorize="isAnonymous()" class="profile-header">
+          <form name="form" th:action="@{/login/openid}" method="post">
+            <div id="openid_input_area">
+              <input id="openid_identifier" name="openid_identifier" type="hidden"
+                     value="http://steamcommunity.com/openid"/>
+
+              <button id="openid_submit" type="submit" class="btn btn-link">
+                <div style="display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                align-content: center;">
+                  <div>
+                    <img style="width: 50px" src="https://img.icons8.com/ios/50/ffffff/steam.png"/>
+                  </div>
+                  <div style="color: white;padding-left: 5px;font-size: 12px;">
+                    STEAM LOGIN
+                  </div>
+                </div>
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- responsive -->
+        <div class="nav-switch">
+          <i class="fa fa-bars"></i>
+        </div>
+
+      </div>
+    </nav>
+  </div>
+</header>
+ิ

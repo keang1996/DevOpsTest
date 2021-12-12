@@ -1,0 +1,43 @@
+.margin-field{
+    margin: 30px;
+}
+@media screen and (max-width: 9999px) {
+    .main-form{
+        width: 700px;
+        margin: auto;
+    }
+}
+@media screen and (max-width: 1024px) {
+    .main-form{
+        width: 100%;
+        margin: auto;
+    }
+}
+
+.li-form{
+    margin-bottom: 10px;
+}
+.li-last-form{
+    margin-bottom: 20px;
+}
+.confirm-button{
+    margin-top: 10px;
+}
+.button-item {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    border: 2px solid #555555;
+    padding: 15px 32px;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.button-item-event:hover {
+    background-color: #898989;
+}

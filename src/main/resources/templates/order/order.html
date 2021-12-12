@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="shared/head :: head (pageTitle='GTA V : what city topup')">
+</head>
+<body th:onload="init()">
+<div th:replace="shared/header :: header"></div>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+<!-- Latest news section -->
+<!--<div th:replace="shared/news-header :: news-header"></div>-->
+<!-- Latest news section end -->
+<!-- Page section -->
+<section class="page-section review-page spad page-background" style="height: 100%">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12" >
+                <h2>รายการสั่งชื้อ</h2>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12" >
+                <h2>&nbsp;</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12" >
+                <table id="tableOrder" class="display" style="width:100%">
+                    <thead>
+                        <div class="col-lg-12 col-md-12 col-sm-12" >
+                            <tr style="font-family: 'IBM Plex Sans Thai';" class="header-table">
+                                <th class="center-table">เลขที่ออร์เดอร์</th>
+                                <th class="center-table">วันที่ชำระ</th>
+                                <th class="center-table">เวลาที่ชำระ</th>
+                                <th class="center-table">ยอดเงิน</th>
+                                <th class="center-table">สถานะ</th>
+                                <th class="center-table"></th>
+                            </tr>
+                        </div>
+                    </thead>
+                    <tbody>
+                        <div class="col-lg-12 col-md-12 col-sm-12" th:each="trade : ${trades}">
+                            <tr style="font-family: 'IBM Plex Sans Thai';">
+                                <td class="center-table"th:text="${trade.getOrderId()}"></td>
+                                <td class="center-table" th:text="${trade.getTradeDate()}"></td>
+                                <td class="center-table" th:text="${trade.getTradeTime()}"></td>
+                                <td class="right-table" th:text="${#numbers.formatDecimal(trade.getAmount(),0, 'COMMA', 2, 'POINT')}"></td>
+                                <td class="center-table" th:text="${trade.getStatusName()}"></td>
+                                <td class="center-table">
+                                    <div th:if="${trade.getStatus() == '1'}">
+                                        <button type="button" class="btn button-item button-item-event"
+                                                th:attr="onclick='openQrcode(\'' + ${trade.getOrderId()} +  '\',\''+ ${trade.getAmount()} +  '\',\''+ ${trade.getOrderDetailsJson()} +'\')'"
+                                                data-toggle="modal" data-target="#qrcodeModal">
+                                           QR Code
+                                        </button>
+                                        <a th:href="@{/payment/{orderId}(orderId = ${trade.getOrderId()})}">
+                                            <button class="btn button-item-cancel button-item-event" th:width="100px"> แจ้งการชำระเงิน</button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${trade.getStatus() == '2'}">
+                                        <button type="button" class="btn button-item button-item-event"
+                                                data-toggle="modal" data-target="#checkStatusModal">
+                                            ติดตามสถานะ
+                                        </button>
+                                    </div>
+                                    <div th:if="${trade.getStatus() == '3'}">
+                                        <button type="button" class="btn button-item button-item-event"
+                                                th:attr="onclick='openItemcode(\'' + ${trade.getItemCode()} +  '\',\''+ ${trade.getOrderDetailsJson()} +'\')'"
+                                                data-toggle="modal" data-target="#itemCodeModal">
+                                            Item Code
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">QR Code ชำระเงิน</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="post-payment" style="text-align: center">
+                        <table class="table">
+                            <thead>
+                            <tr style="font-family: 'IBM Plex Sans Thai';" class="header-table">
+                                <th scope="col">ชื่อสินค้า</th>
+                                <th scope="col">รูปภาพ</th>
+                                <th scope="col">จำนวน</th>
+                            </tr>
+                            </thead>
+                            <tbody id="orderDetailQr">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="post-payment" style="text-align: left">
+                        <h5 id="orderId"></h5></br>
+                        <h5 id="amount"></h5>
+                    </div>
+                    <div class="show-qr" >
+                        <div class="qr-code set-bg">
+                            <img  th:src="${qrcode}">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="checkStatusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkStatusLabel">กำลังดำเนินการ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="post-payment" style="text-align: left">
+                        <h5>กรุณารอผู้ดูแลระบบดำเนินการตรวจสอบ สลิปการโอนเงินประมาณ</h5><br>
+                        <h5 style="color: red">15 นาที - 3 ชั่วโมง</h5>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="itemCodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="itemCodeModalLabel">ItemCode</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="post-payment" style="text-align: center">
+                    <table class="table">
+                        <thead>
+                        <tr style="font-family: 'IBM Plex Sans Thai';" class="header-table">
+                            <th scope="col">ชื่อสินค้า</th>
+                            <th scope="col">รูปภาพ</th>
+                            <th scope="col">จำนวน</th>
+                        </tr>
+                        </thead>
+                        <tbody id="orderDetail">
+                        </tbody>
+                    </table>
+                    </div>
+                    <div class="post-payment" style="text-align: left;display: inline-flex">
+                        <h5 style="font-size: 18px">item code &nbsp;:&nbsp;</h5>
+                        <h5 id="itemCode" style="font-size: 18px; color: red"></h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--====== Javascripts & Jquery ======-->
+<link rel="stylesheet" href="/css/order/order.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.marquee.min.js"></script>
+<script src="js/main.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.min.js"></script>
+<script type="text/javascript" th:src="@{/js/order/order.js}"></script>
+<div th:replace="shared/footer :: footer"></div>
+
+</body>
+</html>
+<script>
+    $(document).ready(function() {
+        $('#tableOrder').DataTable({
+            "responsive": true,
+            "ordering": false ,
+            "language": {
+                "paginate": {
+                    "previous": "ย้อนกลับ",
+                    "next" : "ถัดไป"
+                },
+                "search": "ค้นหา :",
+                "info": "แสดงหน้า  _PAGE_ จาก _PAGES_",
+                "infoEmpty":      "แสดงหน้า 0 จาก 0 ",
+                "lengthMenu": "แสดง _MENU_ รายการ",
+                "emptyTable": "ไม่พบรายการที่แสดง"
+            }
+        });
+    } );
+</script>

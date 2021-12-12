@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:include="shared/head :: head (pageTitle='GTA V : what city topup')">
+
+</head>
+
+<body>
+<div th:replace="shared/header :: header"></div>
+<!-- Page Preloder -->
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+
+<div class="card-category-root">
+  <div class="card-category-inner">
+    <div class="card-category-entryPage">
+      <div class="card-category-titleContainer"
+           style="margin-bottom: 0px; height: 30em; -webkit-mask-image: linear-gradient(to top, transparent 5%, black 100%);">
+        <div class="card-category-titleContainerBackground"
+             th:style="'background:url('+'data:image/jpeg;base64,'+${limitItem.getCoverImage()}+'); background-size:cover;'"></div>
+      </div>
+      <div style="padding-left: 14vw;padding-bottom: 3em;padding-right: 14vw">
+        <h2 th:text="${#dates.format(limitItem.getCreateDate, 'dd-MMMM-yyyy')}"
+            style="color: white;"></h2>
+        <h1 th:text="${limitItem.getTopic()}" style="color: white;"></h1>
+        <a th:href="@{'/content/' + ${limitItem.getNewsId()} }" class="btn btn-link"
+           style="padding: 0rem 0rem; color: white">
+          <h2 style="color: white">Read More
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                 class="bi bi-arrow-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+          </h2>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page section -->
+<!--<section>-->
+<div id="card-outer-wrapper">
+  <div id="card-inner-wrapper"
+       style="flex-direction: column !important;height: 100%;justify-content: flex-start;">
+    <div>
+      <h1 th:text="${cateName}" style="color: white"></h1>
+    </div>
+    <div class="row" style="height: 35vw;">
+      <div class="col-md-4" th:each="newsItem, prdStat: ${item}">
+        <a th:href="@{'/content/' + ${newsItem.getNewsId()} }" class="card-wrapper">
+          <div class="card-content"
+               th:style="'background:url('+'data:image/jpeg;base64,'+${newsItem.getCoverImage()}+'); background-size:cover; height: 14vw;background-position: top;'">
+            <div class="fade-wrapper">
+              <div
+                  style="
+                background: rgba(0, 0, 0, 0) linear-gradient(rgba(19, 23, 28, 0) 60%, rgba(19, 23, 28, 0.733) 70%, rgb(19, 23, 28) 90%) repeat scroll 0% 0%;
+                height: 15vw"
+              ></div>
+            </div>
+            <div class="title" th:text="${newsItem.getTopic()}"></div>
+            <div class="date"
+                 th:text="${#dates.format(newsItem.getCreateDate(),'dd-MMMM-yyyy')}"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="row" style="justify-content: center;">
+      <nav aria-label="Search results pages">
+        <ul class="pagination pagination-lg justify-content-center">
+          <li class="page-item" th:each="i : ${#numbers.sequence( 1, totalPage)}">
+            <a class="page-link" style="background-color: transparent;color: white;"
+               th:href="@{'/news/' + ${cateId} + '?page=' + ${i}}" th:text="${i}"></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+<!--</section>-->
+<!-- Page section end -->
+
+<!-- Footer top section end -->
+<!--====== Javascripts & Jquery ======-->
+<script src="../js/jquery-3.2.1.min.js "></script>
+<script src="../js/bootstrap.min.js "></script>
+<script src="../js/owl.carousel.min.js "></script>
+<script src="../js/jquery.marquee.min.js "></script>
+<script src="../js/main.js "></script>
+<div th:replace="shared/footer :: footer "></div>
+</body>
+
+</html>

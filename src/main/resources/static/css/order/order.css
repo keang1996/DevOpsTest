@@ -1,0 +1,66 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #cacaca;
+}
+
+.center-table{
+    text-align: center;
+}
+.right-table{
+    text-align: right;
+}
+.page-background{
+    background: #d8d8d8;
+}
+.header-table{
+    background: #434343;
+    color: white;
+}
+.button-item {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    border: 2px solid #555555;
+    padding: 15px 32px;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    display: inline-flex;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    height: 40px;
+}
+.button-item-cancel {
+    background-color: rgb(214 214 211);
+    border: none;
+    color: #000000;
+    border: 2px solid #555555;
+    padding: 15px 32px;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    display: inline-flex;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    height: 40px;
+}
+.button-item-event:hover {
+    background-color: #898989;
+}

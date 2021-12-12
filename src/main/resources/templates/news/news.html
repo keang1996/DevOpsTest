@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:include="shared/head :: head (pageTitle='GTA V : what city topup')"></head>
+
+<body>
+<div th:replace="shared/header :: header"></div>
+<!-- Page Preloder -->
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+
+<section th:each="item, prdStat: ${itemShow}" class="hero-section">
+  <div class="hero-slider owl-carousel">
+    <div th:each="subItem, prdStat: ${item.getValue()}" class="hs-item-news-sub">
+      <div style="position: absolute;opacity: 0.3;">
+        <img class="img-size" th:src="@{'data:image/jpeg;base64,'+${subItem.getCoverImage()}}"/>
+      </div>
+      <div class="hs-text">
+        <div class="container news-layout">
+          <u>
+            <a th:href="@{'/news/' + ${subItem.getNewsCategoryId()} + '?page=1' }" style="
+            display: flex;
+            flex-direction: row;
+            align-items: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" style="color: white" width="36" height="36"
+                   fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+              </svg>
+              <h2 style="margin-bottom: 0px; text-decoration-line: underline;"
+                  th:text="${subItem.getNewsCategory()}">
+              </h2>
+            </a>
+          </u>
+          <h1 style="margin-bottom: 0px;" th:text="${subItem.getTopic()}"></h1>
+          <a th:href="@{'/content/' + ${subItem.getNewsId()} }" class="btn btn-link"
+             style="padding: 0rem 0rem;">
+            <h2 style="margin-bottom: 0px; text-decoration-line: underline;">
+              อ่านเพิ่มเติม
+            </h2>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer top section -->
+<!--<section class="footer-top-section ">-->
+<!--  <div class="container ">-->
+<!--    <div class="row ">-->
+<!--      <div class="col-lg-4 ">-->
+<!--        <div class="footer-logo text-white ">-->
+<!--          <img src="img/what_city_logo.png " style="width: 300px; " alt=" ">-->
+<!--          <p>Lorem ipsum dolor sit amet, consectetur adipisc ing ipsum dolor sit ame.</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-lg-4 col-md-6 ">-->
+<!--        <div class="footer-widget mb-5 mb-md-0 ">-->
+<!--          <h4 class="fw-title ">Latest Posts</h4>-->
+<!--          <div class="latest-blog ">-->
+<!--            <div class="lb-item ">-->
+<!--              &lt;!&ndash;              <div class="lb-thumb set-bg " data-setbg="img/latest-blog/1.jpg "></div>&ndash;&gt;-->
+<!--              <div class="lb-thumb set-bg "-->
+<!--                   data-setbg="https://c4.wallpaperflare.com/wallpaper/15/740/849/grand-theft-auto-v-the-trunk-wallpaper-preview.jpg "></div>-->
+<!--              &ndash;&gt;-->
+<!--              <div class="lb-content ">-->
+<!--                <div class="lb-date ">April 21, 2021</div>-->
+<!--                <p>Item Update , patch update</p>-->
+<!--                <a href="# " class="lb-author ">By Admin</a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="lb-item ">-->
+<!--              <div class="lb-thumb set-bg "-->
+<!--                   data-setbg="https://p4.wallpaperbetter.com/wallpaper/822/767/580/grand-theft-auto-v-michael-de-santa-gta-wallpaper-preview.jpg "></div>-->
+<!--              <div class="lb-content ">-->
+<!--                <div class="lb-date ">April 22, 2021</div>-->
+<!--                <p>Item Update , patch update </p>-->
+<!--                <a href="# " class="lb-author ">By Admin</a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="lb-item ">-->
+<!--              <div class="lb-thumb set-bg "-->
+<!--                   data-setbg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuTcVm6GkL_ykXcJntR_jMp5-brs4ODJln-Egb9TGeD2ZWCKCq6k-JxtTLsy8oxfV9Tw&usqp=CAU "></div>-->
+<!--              <div class="lb-content ">-->
+<!--                <div class="lb-date ">April 23, 2021</div>-->
+<!--                <p> Item Update , patch update </p>-->
+<!--                <a href="# " class="lb-author ">By Admin</a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-lg-4 col-md-6 ">-->
+<!--        <div class="footer-widget ">-->
+<!--          <h4 class="fw-title ">Top Comments</h4>-->
+<!--          <div class="top-comment ">-->
+<!--            <div class="tc-item ">-->
+<!--              <div class="tc-thumb set-bg "-->
+<!--                   data-setbg="https://i.pinimg.com/originals/d9/ec/7f/d9ec7fa0a0ee886ad33e17500fd33146.png "></div>-->
+<!--              <div class="tc-content ">-->
+<!--                <p><a href="# ">พี่เสือ</a> <span>on</span> จุดซื้อขายเสือ</p>-->
+<!--                <div class="tc-date ">April 23, 2021</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="tc-item ">-->
+<!--              <div class="tc-thumb set-bg "-->
+<!--                   data-setbg="data:image/jpeg;base64,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"></div>-->
+<!--              <div class=" tc-content ">-->
+<!--                <p><a href="# ">พี่แรด</a> <span>on</span> จุดซื้อขายแรด</p>-->
+<!--                <div class="tc-date ">April 23, 2021</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="tc-item ">-->
+<!--              <div class="tc-thumb set-bg "-->
+<!--                   data-setbg="https://image.freepik.com/free-vector/angry-rooster-mascot-logo_1366-282.jpg "></div>-->
+<!--              <div class="tc-content ">-->
+<!--                <p><a href="# ">พี่ไก่</a> <span>เรื่อง</span> จุดซื้อขายไก่</p>-->
+<!--                <div class="tc-date ">April 22, 2021</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="tc-item ">-->
+<!--              <div class="tc-thumb set-bg "-->
+<!--                   data-setbg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTamHL8AbszRv5-RwH5KxrmBJhxOjE-F5tMBqB9Q1_b3OMFEQN1LA5gaZIOSqz2gG1gTJ8&usqp=CAU "></div>-->
+<!--              <div class="tc-content ">-->
+<!--                <p><a href="# ">พี่หมี </a> <span>เรื่อง</span> จุดซื้อขายหมี</p>-->
+<!--                <div class="tc-date ">April 21, 2021</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+<!-- Footer top section end -->
+<!--====== Javascripts & Jquery ======-->
+<script src="js/jquery-3.2.1.min.js "></script>
+<script src="js/bootstrap.min.js "></script>
+<script src="js/owl.carousel.min.js "></script>
+<script src="js/jquery.marquee.min.js "></script>
+<script src="js/main.js "></script>
+<div th:replace="shared/footer :: footer "></div>
+</body>
+
+</html>

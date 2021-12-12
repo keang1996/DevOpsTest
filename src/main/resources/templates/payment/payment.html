@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="shared/head :: head (pageTitle='GTA V : what city topup')">
+</head>
+<body th:onload="onInit()">
+<div th:replace="shared/header :: header"></div>
+<!-- Page Preloder -->
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+<!-- Latest news section -->
+<!--<div th:replace="shared/news-header :: news-header"></div>-->
+<!-- Latest news section end -->
+<!-- Page section -->
+<section class="page-section review-page spad" style="background: #424447; height: 100%">
+  <div class="container">
+    <form  class="modal-content main-form" action="#" th:action="@{/savePaymentDetail}" th:object="${paymentDetail}" enctype="multipart/form-data" method="post">
+      <div class="fieldset margin-field">
+        <div th:if="!${success}">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center" >
+              <h5>แจ้งการชำระเงิน</h5>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12" >
+              <h2>&nbsp;</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <label>สลิปการชำระเงิน</label>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <input type="file" name="file" class="form-control-file">
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <p style="color: black">Max File Size 5MB</p>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <p th:text="${messageFile}" th:if="${messageFile ne null}" class="alert alert-danger"></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <label>เลขคำสั่งซื้อ</label>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <input readonly type="text" autocomplete="off" class="form-control" th:field="*{orderRef}" maxlength="20" required>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <p th:text="${messageOrderRef}" th:if="${messageOrderRef ne null}" class="alert alert-danger"></p>
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 5px;">
+            <label>วันที่</label>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <input type="text" autocomplete="off" id="datePickerInput" class="form-control" th:field="*{date}" maxlength="10" required >
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <p th:text="${messageDate}" th:if="${messageDate ne null}" class="alert alert-danger"></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 5px;">
+            <label>เวลา</label>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <input id="timeInput" type="time"  placeholder="hrs:mins" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$"
+                   autocomplete="off" class="form-control" th:field="*{time}" maxlength="5"
+                   min="00:00" max="23:59"
+                   required>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <p th:text="${messageTime}" th:if="${messageTime ne null}" class="alert alert-danger"></p>
+          </div>
+        </div>
+        <div class="row" style="text-align: center">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            &nbsp;
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div id="recaptcha" style="display: inline-block"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <button id="submitButton" class="btn button-item button-item-event btn-lg btn-block confirm-button" type="submit" disabled>ยืนยัน</button>
+          </div>
+        </div>
+       </div>
+        <div th:if="${success}">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <h5 style="text-align: center" th:text="${messageSuccess}" th:if="${messageSuccess ne null}" class="alert alert-primary"></h5>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            &nbsp;
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">ชื่อสินค้า</th>
+                <th scope="col">รูปภาพ</th>
+                <th scope="col">ราคาต่อชิ้น</th>
+                <th scope="col">จำนวน</th>
+                <th scope="col">สุทธิ</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="order, oStat: ${order}">
+                <th scope="row" style="vertical-align: middle;" th:text="${order.getProductName()}"></th>
+                <td style="text-align: center; vertical-align: middle;">
+                  <img th:src="@{'data:image/jpeg;base64,' + ${order.getProductImg()}}" style="width: 100px">
+                </td>
+                <td style="vertical-align: middle;" th:text="${#numbers.formatDecimal(order.getProductPrice() ,0, 'COMMA', 2, 'POINT')}"></td>
+                <td style="vertical-align: middle;" th:text="${order.getQuantity()}"></td>
+                <td style="vertical-align: middle;" th:text="${#numbers.formatDecimal(order.getTotalPrice() ,0, 'COMMA', 2, 'POINT')}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center">
+            <a class="btn btn-success" th:href="@{/order}" role="button">ตรวจสอบสถานะการสั่งชื้อ</a>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<!--====== Javascripts & Jquery ======-->
+<link rel="stylesheet" href="../css/payment/payment.css" />
+<script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/owl.carousel.min.js"></script>
+<script src="../js/jquery.marquee.min.js"></script>
+<script src="../js/main.js"></script>
+<link href="../js/bootstrap-datepicker-thai/css/datepicker.css" rel="stylesheet">
+<script src="../js/bootstrap-datepicker-thai/js/bootstrap-datepicker.js"></script>
+<script src="../js/bootstrap-datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
+<script src="../js/bootstrap-datepicker-thai/js/locales/bootstrap-datepicker.th.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+<script type="text/javascript" th:src="@{../js/payment/payment.js}"></script>
+<div th:replace="shared/footer :: footer"></div>
+<script>
+  $(document).ready(function(){
+    $("#datePickerInput").datepicker({
+      language:'th-th',
+      format:'dd/mm/yyyy',
+      autoclose: true
+    });
+  });
+</script>
+</body>
+</html>
