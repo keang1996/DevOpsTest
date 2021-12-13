@@ -12,7 +12,7 @@
 </div>
 
 <!-- Hero section -->
-<section class="hero-section">
+<section class="hero-section" th:if="${mainEventCoverSize} > 0">
   <div>
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div
-      style="margin-left: 10px;margin-right: 10px;display: flex;flex-direction: row;align-items: baseline;padding-left: 10em;padding-right: 10em;">
+    style="margin-left: 10px;margin-right: 10px;display: flex;flex-direction: row;align-items: baseline;padding-left: 10em;padding-right: 10em;">
     <h1 style="
     color: white;
     margin-top: 2em;">Latest News</h1>
@@ -74,6 +74,21 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero-section" style="
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;" th:if="${mainEventCoverSize} == 0">
+  <div class="jumbotron jumbotron-fluid" style="background-color: #343a40;">
+    <div class="container">
+      <h1 class="display-4" style="color: white">ยังไม่มีข้อมูลข่าวสาร</h1>
+      <p class="lead" style="color: white">
+        ยังไม่มีข้อมูลข่าวสารในหน้าเว็บเพจ ขออภัยในความไม่สะดวก
+      </p>
     </div>
   </div>
 </section>

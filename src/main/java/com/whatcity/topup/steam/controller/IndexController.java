@@ -47,6 +47,7 @@ public class IndexController {
     List<IAdminNews> mainEventCover = newsService.getMainEventCoverImage();
     if (mainEventCover != null) {
       model.addAttribute("mainEventCover", mainEventCover);
+      model.addAttribute("mainEventCoverSize", mainEventCover.size());
     }
     return "index";
   }
